@@ -15,6 +15,16 @@ public class Employee {
     private String lastName;
     private String email;
 
+    // Default constructor
+    public Employee() {}
+
+    // Parameterized constructor
+    public Employee(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;

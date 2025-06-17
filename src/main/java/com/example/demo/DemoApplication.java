@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import com.example.demo.model.Employee;
+import com.example.demo.repository.EmployeeRepository;
+
 @SpringBootApplication
 public class DemoApplication {
 
@@ -24,6 +27,20 @@ public class DemoApplication {
 
 			for (String beanName : beanNames) {
 				System.out.println(beanName);
+			}
+		};
+	}
+
+	@Bean
+	public CommandLineRunner initDatabase(EmployeeRepository employeeRepository) {
+		return args -> {
+			if (employeeRepository.count() == 0) {
+				employeeRepository.save(new Employee("John", "Doe", "john.doe@example.com"));
+				employeeRepository.save(new Employee("Jane", "Smith", "jane.smith@example.com"));
+				employeeRepository.save(new Employee("Alice", "Johnson", "alice.johnson@example.com"));
+				System.out.println("Sample employees added to the database.");
+			} else {
+				System.out.println("Database already initialized with employees.");
 			}
 		};
 	}
