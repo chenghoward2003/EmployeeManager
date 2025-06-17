@@ -35,9 +35,7 @@ public class DemoApplication {
 	public CommandLineRunner initDatabase(EmployeeRepository employeeRepository) {
 		return args -> {
 			if (employeeRepository.count() == 0) {
-				employeeRepository.save(new Employee("John", "Doe", "john.doe@example.com"));
-				employeeRepository.save(new Employee("Jane", "Smith", "jane.smith@example.com"));
-				employeeRepository.save(new Employee("Alice", "Johnson", "alice.johnson@example.com"));
+				employeeRepository.save(new Employee("Lebron", "James", "GloriousKing@nba.com"));
 				System.out.println("Sample employees added to the database.");
 			} else {
 				System.out.println("Database already initialized with employees.");
