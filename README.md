@@ -13,9 +13,8 @@ To get started, ensure you have the following software installed on your system:
 
 - **Java Development Kit (JDK) 8 or higher**
     - Download and install JDK version from Oracle's [official website](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html).
-
 - **Git**
     - Download and install Git from its [official website](https://git-scm.com/downloads).
-
 - **Maven**
     - Download and install Maven from the [Apache Maven's website](https://maven.apache.org/download.cgi).
+
