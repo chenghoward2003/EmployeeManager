@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Management</title>
-    
+
     <style>
     </style>
 
@@ -19,7 +19,7 @@
                 renderEmployees(employees);
             } catch (error) {
                 console.error("Could not fetch employees:", error);
-                alert("Failed to load employees."); // User-friendly error message
+                alert("Failed to load employees.");
             }
         }
 
@@ -118,7 +118,7 @@
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     closeEditForm();
-                    fetchEmployees(); // Refresh the list
+                    fetchEmployees();
                 } catch (error) {
                     console.error("Could not update employee:", error);
                     alert('Failed to update employee');
@@ -145,7 +145,7 @@
     <h2>Employee List</h2>
     <ul id="employeeList"></ul>
 
-    <div id="editFormContainer" style="display:none; position:fixed; top:20%; left:40%; background:#fff; border:1px solid #ccc; padding:20px;">
+    <div id="editFormContainer" style="display:none; position:fixed; border:1px solid #ccc; padding:20px;">
         <h3>Edit Employee</h3>
         <form id="editEmployeeForm">
             <input type="hidden" id="editId">
