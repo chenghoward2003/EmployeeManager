@@ -4,26 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Management</title>
+    
+    <style>
+    </style>
+
     <script>
         async function fetchEmployees() {
-            const response = await fetch('/api/employees');
-            const employees = await response.json();
-            const employeeList = document.getElementById('employeeList');
-            employeeList.innerHTML = '';
-            employees.forEach(employee => {
-                const li = document.createElement('li');
-                li.textContent = `${employee.id}: ${employee.firstName} ${employee.lastName} (${employee.email})`;
-                const deleteBtn = document.createElement('button');
-                deleteBtn.textContent = 'Delete';
-                deleteBtn.style.marginLeft = '10px';
-                deleteBtn.onclick = async () => {
-                    if (confirm('Are you sure you want to delete this employee?')) {
-                        await deleteEmployee(employee.id);
-                    }
-                };
-                li.appendChild(deleteBtn);
-                employeeList.appendChild(li);
-            });
+            try {
+                const response = await fetch('/api/employees');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const employees = await response.json();
+                renderEmployees(employees);
+            } catch (error) {
+                console.error("Could not fetch employees:", error);
+                alert("Failed to load employees."); // User-friendly error message
+            }
         }
 
         async function addEmployee(event) {
@@ -31,80 +28,103 @@
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
             const email = document.getElementById('email').value;
-            await fetch('/api/employees', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ firstName, lastName, email })
-            });
-            fetchEmployees();
+            try {
+                const response = await fetch('/api/employees', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ firstName, lastName, email })
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                fetchEmployees();
+            } catch (error) {
+                console.error("Could not add employee:", error);
+                alert("Failed to add employee.");
+            }
         }
 
         async function deleteEmployee(id) {
-            await fetch(`/api/employees/${id}`, {
-                method: 'DELETE'
-            });
-            fetchEmployees();
+            try {
+                const response = await fetch(`/api/employees/${id}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                fetchEmployees();
+            } catch (error) {
+                console.error("Could not delete employee:", error);
+                alert("Failed to delete employee.");
+            }
         }
 
         function renderEmployees(employees) {
-          const list = document.getElementById('employeeList');
-          list.innerHTML = '';
-          employees.forEach(employee => {
-            const li = document.createElement('li');
-            li.textContent = `${employee.id}: ${employee.firstName} ${employee.lastName} (${employee.email}) `;
+            const list = document.getElementById('employeeList');
+            list.innerHTML = '';
+            employees.forEach(employee => {
+                const li = document.createElement('li');
+                li.textContent = `${employee.id}: ${employee.firstName} ${employee.lastName} (${employee.email}) `;
 
-            // Delete button
-            const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = 'Delete';
-            deleteBtn.onclick = () => deleteEmployee(employee.id);
-            li.appendChild(deleteBtn);
+                // Delete button
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.onclick = () => {
+                  if (confirm('Are you sure you want to delete this employee?')) {
+                    deleteEmployee(employee.id);
+                  }
+                };
+                li.appendChild(deleteBtn);
 
-            // Edit button
-            const editBtn = document.createElement('button');
-            editBtn.textContent = 'Edit';
-            editBtn.onclick = () => openEditForm(employee);
-            li.appendChild(editBtn);
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Edit';
+                editBtn.onclick = () => openEditForm(employee);
+                li.appendChild(editBtn);
 
-            list.appendChild(li);
-          });
+                list.appendChild(li);
+            });
         }
 
         function openEditForm(employee) {
-          document.getElementById('editId').value = employee.id;
-          document.getElementById('editFirstName').value = employee.firstName;
-          document.getElementById('editLastName').value = employee.lastName;
-          document.getElementById('editEmail').value = employee.email;
-          document.getElementById('editFormContainer').style.display = 'block';
+            document.getElementById('editId').value = employee.id;
+            document.getElementById('editFirstName').value = employee.firstName;
+            document.getElementById('editLastName').value = employee.lastName;
+            document.getElementById('editEmail').value = employee.email;
+            document.getElementById('editFormContainer').style.display = 'block';
         }
 
         function closeEditForm() {
-          document.getElementById('editFormContainer').style.display = 'none';
+            document.getElementById('editFormContainer').style.display = 'none';
         }
 
-        document.getElementById('editEmployeeForm').onsubmit = function(event) {
-          event.preventDefault();
-          const id = document.getElementById('editId').value;
-          const updatedEmployee = {
-            firstName: document.getElementById('editFirstName').value,
-            lastName: document.getElementById('editLastName').value,
-            email: document.getElementById('editEmail').value
-          };
-          fetch(`/api/employees/${id}`, {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(updatedEmployee)
-          })
-          .then(response => {
-            if (response.ok) {
-              closeEditForm();
-              loadEmployees(); // Refresh the list
-            } else {
-              alert('Failed to update employee');
-            }
-          });
-        };
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('editEmployeeForm').onsubmit = async function(event) {
+                event.preventDefault();
+                const id = document.getElementById('editId').value;
+                const updatedEmployee = {
+                    firstName: document.getElementById('editFirstName').value,
+                    lastName: document.getElementById('editLastName').value,
+                    email: document.getElementById('editEmail').value
+                };
+                try {
+                    const response = await fetch(`/api/employees/${id}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(updatedEmployee)
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    closeEditForm();
+                    fetchEmployees(); // Refresh the list
+                } catch (error) {
+                    console.error("Could not update employee:", error);
+                    alert('Failed to update employee');
+                }
+            };
+        });
 
     </script>
 </head>
@@ -115,13 +135,10 @@
     <form onsubmit="addEmployee(event)">
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" name="firstName" required>
-        <br>
         <label for="lastName">Last Name:</label>
         <input type="text" id="lastName" name="lastName" required>
-        <br>
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
-        <br>
         <button type="submit">Add Employee</button>
     </form>
 
@@ -129,15 +146,15 @@
     <ul id="employeeList"></ul>
 
     <div id="editFormContainer" style="display:none; position:fixed; top:20%; left:40%; background:#fff; border:1px solid #ccc; padding:20px;">
-      <h3>Edit Employee</h3>
-      <form id="editEmployeeForm">
-        <input type="hidden" id="editId">
-        <label>First Name: <input type="text" id="editFirstName"></label><br>
-        <label>Last Name: <input type="text" id="editLastName"></label><br>
-        <label>Email: <input type="email" id="editEmail"></label><br>
-        <button type="submit">Save</button>
-        <button type="button" onclick="closeEditForm()">Cancel</button>
-      </form>
+        <h3>Edit Employee</h3>
+        <form id="editEmployeeForm">
+            <input type="hidden" id="editId">
+            <label>First Name: <input type="text" id="editFirstName"></label><br>
+            <label>Last Name: <input type="text" id="editLastName"></label><br>
+            <label>Email: <input type="email" id="editEmail"></label><br>
+            <button type="submit">Save</button>
+            <button type="button" onclick="closeEditForm()">Cancel</button>
+        </form>
     </div>
 
     <button onclick="fetchEmployees()">Refresh List</button>
