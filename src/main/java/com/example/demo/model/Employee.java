@@ -15,7 +15,8 @@ public class Employee {
     private String lastName;
     private String email;
 
-    public Employee() {}
+    public Employee() {
+    }
 
     public Employee(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -26,6 +27,7 @@ public class Employee {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -33,6 +35,7 @@ public class Employee {
     public String getFirstName() {
         return firstName;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -40,6 +43,7 @@ public class Employee {
     public String getLastName() {
         return lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -47,6 +51,7 @@ public class Employee {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }

@@ -1,8 +1,8 @@
 package com.example.demo.service;
+
 import com.example.demo.model.Employee;
 import com.example.demo.model.EmployeeDTO;
 import com.example.demo.repository.EmployeeRepository;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,9 +42,9 @@ public class EmployeeServiceImplement implements EmployeeService {
     @Override
     @Transactional
     public EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTO) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> 
-                                new RuntimeException("Employee not found with id: " + id));
-                                
+        Employee employee = employeeRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Employee not found with id: " + id));
+
         employee.setFirstName(employeeDTO.firstName());
         employee.setLastName(employeeDTO.lastName());
         employee.setEmail(employeeDTO.email());
@@ -53,7 +53,6 @@ public class EmployeeServiceImplement implements EmployeeService {
         return convertToDTO(updatedEmployee);
     }
 
-
     @Override
     @Transactional
     public void deleteEmployee(Long id) {
@@ -61,10 +60,10 @@ public class EmployeeServiceImplement implements EmployeeService {
     }
 
     private EmployeeDTO convertToDTO(Employee employee) {
-        return new EmployeeDTO(employee.getId(), 
-                                employee.getFirstName(), 
-                                employee.getLastName(), 
-                                employee.getEmail());
+        return new EmployeeDTO(employee.getId(),
+                employee.getFirstName(),
+                employee.getLastName(),
+                employee.getEmail());
     }
 
     private Employee convertToEntity(EmployeeDTO employeeDTO) {

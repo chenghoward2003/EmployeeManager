@@ -1,5 +1,7 @@
 # Employee Manager
-A Java **CRUD** (Create, Read, Update, Delete) practice application that demonstrates basic employee management functionality.
+
+A Java **CRUD** (Create, Read, Update, Delete) practice application that demonstrates basic employee management
+functionality.
 
 - *Java Spring Boot Backend*: Implements RESTful CRUD operations for employee records.
 
@@ -12,7 +14,8 @@ A Java **CRUD** (Create, Read, Update, Delete) practice application that demonst
 To get started, ensure you have the following software installed on your system:
 
 - **Java Development Kit (JDK) 8 or higher**
-    - Download and install JDK version from Oracle's [official website](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html).
+    - Download and install JDK version from
+      Oracle's [official website](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html).
 - **Git**
     - Download and install Git from its [official website](https://git-scm.com/downloads).
 - **Maven**
