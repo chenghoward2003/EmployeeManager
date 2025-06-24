@@ -4,9 +4,7 @@ A Java **CRUD** (Create, Read, Update, Delete) practice application that demonst
 functionality.
 
 - *Java Spring Boot Backend*: Implements RESTful CRUD operations for employee records.
-
 - *HTML Interface*: Simple web-based user interface for add, edit, read, delete employee's data.
-
 - *SQLite Database*: Uses SQLite as the database to provide better portability, integrated via Spring Data JPA.
 
 ## Prerequisites
@@ -21,3 +19,6 @@ To get started, ensure you have the following software installed on your system:
 - **Maven**
     - Download and install Maven from the [Apache Maven's website](https://maven.apache.org/download.cgi).
 
+## Appearance
+<img src="Image/Homepage.png" alt="Homepage" width="400"/>
+<img src="Image/Edit.png" alt="Edit" width="400"/>
